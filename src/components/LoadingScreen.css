@@ -1,0 +1,256 @@
+/* ==========================================
+   TRIPLE CUT — LOADING SCREEN ANIMATION
+   ========================================== */
+
+/* ── Container ── */
+.ls {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a0a;
+    overflow: hidden;
+    transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1),
+        opacity 0.7s ease;
+}
+
+/* Exit: slide up + fade out */
+.ls--out {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* ── Barber Pole Stripe Bands ── */
+.ls__pole {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 18px;
+    overflow: hidden;
+}
+
+.ls__pole--top {
+    top: 0;
+}
+
+.ls__pole--bottom {
+    bottom: 0;
+}
+
+.ls__pole-track {
+    width: 200%;
+    height: 100%;
+    background: repeating-linear-gradient(90deg,
+            #d62828 0px,
+            #d62828 30px,
+            #ffffff 30px,
+            #ffffff 60px,
+            #1a3a6b 60px,
+            #1a3a6b 90px,
+            #ffffff 90px,
+            #ffffff 120px);
+    animation: ls-pole 1.2s linear infinite;
+}
+
+.ls__pole--bottom .ls__pole-track {
+    animation-direction: reverse;
+}
+
+@keyframes ls-pole {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* ── Center Content ── */
+.ls__center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    animation: ls-fadeUp 0.6s ease both;
+}
+
+@keyframes ls-fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Logo ── */
+.ls__logo-wrap {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Rotating glowing ring */
+.ls__ring {
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 2.5px solid transparent;
+    border-top-color: #b8860b;
+    border-right-color: rgba(184, 134, 11, 0.3);
+    animation: ls-spin 1.2s linear infinite;
+}
+
+@keyframes ls-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Second counter-rotating ring */
+.ls__ring::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+    border-bottom-color: rgba(214, 40, 40, 0.5);
+    animation: ls-spin-rev 2s linear infinite;
+}
+
+@keyframes ls-spin-rev {
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+.ls__logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #fff;
+    padding: 6px;
+    animation: ls-logoPulse 2s ease-in-out infinite;
+    box-shadow: 0 0 40px rgba(184, 134, 11, 0.2);
+}
+
+@keyframes ls-logoPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 30px rgba(184, 134, 11, 0.15), 0 0 0 0 rgba(184, 134, 11, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 50px rgba(184, 134, 11, 0.35), 0 0 0 12px rgba(184, 134, 11, 0.05);
+    }
+}
+
+/* ── Brand Text ── */
+.ls__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    animation: ls-fadeUp 0.6s ease 0.2s both;
+}
+
+.ls__brand-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+.ls__brand-accent {
+    color: #b8860b;
+}
+
+.ls__brand-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Progress Bar ── */
+.ls__progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 220px;
+    animation: ls-fadeUp 0.6s ease 0.4s both;
+}
+
+.ls__progress-bar {
+    flex: 1;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.ls__progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #b8860b, #d4a017, #b8860b);
+    background-size: 200% 100%;
+    border-radius: 3px;
+    transition: width 0.15s ease;
+    animation: ls-shimmer 1.5s linear infinite;
+}
+
+@keyframes ls-shimmer {
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -200% 0;
+    }
+}
+
+.ls__progress-text {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.4);
+    min-width: 36px;
+    text-align: right;
+    letter-spacing: 0.05em;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+    .ls__logo-wrap {
+        width: 110px;
+        height: 110px;
+    }
+
+    .ls__logo {
+        width: 82px;
+        height: 82px;
+    }
+
+    .ls__brand-name {
+        font-size: 1.6rem;
+    }
+
+    .ls__progress-wrap {
+        width: 180px;
+    }
+}
