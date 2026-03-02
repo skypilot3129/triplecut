@@ -1,0 +1,204 @@
+/* ========= ABOUT PAGE — Light Theme ========= */
+
+.about-hero {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    padding: calc(var(--navbar-height) + var(--space-4xl)) 0 var(--space-3xl);
+    text-align: center;
+}
+
+.about-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.62);
+}
+
+.about-hero__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.about-hero h1 {
+    color: var(--color-white);
+    margin: var(--space-lg) 0 var(--space-md);
+    animation: fadeInUp 0.6s ease 0.15s both;
+}
+
+.about-hero p {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1.1rem;
+    animation: fadeInUp 0.6s ease 0.3s both;
+}
+
+.about-hero .hero__badge {
+    color: var(--color-gold-light);
+    background: rgba(184, 134, 11, 0.18);
+    border-color: rgba(184, 134, 11, 0.35);
+}
+
+
+.text-gold {
+    color: var(--color-gold);
+}
+
+.text-gold-sm {
+    color: var(--color-gold);
+    font-size: 0.75em;
+    font-weight: 400;
+}
+
+/* Philosophy */
+.about-philosophy__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+}
+
+.about-philosophy__card {
+    text-align: center;
+}
+
+.about-philosophy__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--color-gold-bg);
+    border: 2px solid var(--color-gold-border);
+    color: var(--color-gold);
+    margin-bottom: var(--space-lg);
+    transition: all var(--transition-base);
+}
+
+.about-philosophy__card:hover .about-philosophy__icon {
+    background: var(--color-gold);
+    color: var(--color-white);
+    border-color: var(--color-gold);
+    transform: scale(1.08);
+}
+
+.about-philosophy__card h3 {
+    margin-bottom: var(--space-md);
+}
+
+.about-philosophy__card p {
+    font-size: 0.9rem;
+}
+
+/* Stats */
+.about-stats {
+    background: var(--color-dark-bg);
+    padding: var(--space-3xl) 0;
+}
+
+.about-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-xl);
+    text-align: center;
+}
+
+.about-stats__number {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-gold);
+    display: block;
+    margin-bottom: var(--space-xs);
+}
+
+.about-stats__label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.55);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: var(--font-heading);
+}
+
+/* Team */
+.about-team {
+    background: var(--color-light-2);
+}
+
+.about-team__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+}
+
+.about-team__card {
+    text-align: center;
+}
+
+.about-team__avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: var(--color-gold-bg);
+    border: 2px solid var(--color-gold-border);
+    color: var(--color-gold);
+    margin-bottom: var(--space-lg);
+    transition: all var(--transition-base);
+}
+
+.about-team__card:hover .about-team__avatar {
+    border-color: var(--color-gold);
+    box-shadow: var(--shadow-gold);
+}
+
+.about-team__card h3 {
+    margin-bottom: var(--space-xs);
+    font-size: 1.2rem;
+}
+
+.about-team__role {
+    display: block;
+    font-family: var(--font-heading);
+    color: var(--color-gold);
+    font-size: 0.82rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-md);
+}
+
+.about-team__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.about-team__details span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    font-size: 0.85rem;
+    color: var(--color-gray);
+}
+
+.about-team__details svg {
+    color: var(--color-gold);
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+
+    .about-philosophy__grid,
+    .about-team__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+
+    .about-stats__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-lg);
+    }
+}

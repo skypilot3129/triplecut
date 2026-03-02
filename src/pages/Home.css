@@ -1,0 +1,239 @@
+/* ========= HOME PAGE — Light Theme ========= */
+
+/* ── HERO (stays dark for image contrast) ── */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.hero__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-overlay);
+}
+
+.hero__content {
+    position: relative;
+    z-index: 1;
+    padding-top: calc(var(--navbar-height) + var(--space-3xl));
+    padding-bottom: var(--space-3xl);
+    max-width: 700px;
+}
+
+.hero__badge {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--color-gold-light);
+    background: rgba(184, 134, 11, 0.15);
+    border: 1px solid rgba(184, 134, 11, 0.3);
+    padding: 8px 20px;
+    border-radius: 30px;
+    margin-bottom: var(--space-xl);
+    animation: fadeInUp 0.6s ease;
+}
+
+.hero__title {
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    line-height: 1.1;
+    color: var(--color-white);
+    margin-bottom: var(--space-lg);
+    animation: fadeInUp 0.6s ease 0.15s both;
+}
+
+.hero__title-accent {
+    color: var(--color-gold-light);
+}
+
+.hero__subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.82);
+    max-width: 520px;
+    margin-bottom: var(--space-2xl);
+    animation: fadeInUp 0.6s ease 0.3s both;
+}
+
+.hero__ctas {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    animation: fadeInUp 0.6s ease 0.45s both;
+}
+
+/* ── SERVICES PREVIEW (white bg) ── */
+.home-services {
+    background: var(--color-white);
+}
+
+.home-services__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+}
+
+.home-services__card {
+    text-align: center;
+    animation: fadeInUp 0.6s ease both;
+}
+
+.home-services__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--color-gold-bg);
+    border: 2px solid var(--color-gold-border);
+    color: var(--color-gold);
+    margin-bottom: var(--space-lg);
+    transition: all var(--transition-base);
+}
+
+.home-services__card:hover .home-services__icon {
+    background: var(--color-gold);
+    color: var(--color-white);
+    border-color: var(--color-gold);
+    transform: scale(1.08);
+}
+
+.home-services__card h3 {
+    margin-bottom: var(--space-sm);
+    color: var(--color-dark);
+}
+
+.home-services__card p {
+    font-size: 0.9rem;
+    margin-bottom: var(--space-lg);
+}
+
+.home-services__price {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-gold);
+    font-size: 1.05rem;
+    letter-spacing: 0.05em;
+}
+
+.home-services__cta {
+    text-align: center;
+    margin-top: var(--space-2xl);
+}
+
+/* ── PILLARS (alt bg) ── */
+.home-pillars {
+    background: var(--color-light-2);
+}
+
+.home-pillars__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2xl);
+}
+
+.home-pillars__item {
+    text-align: center;
+    animation: fadeInUp 0.6s ease both;
+}
+
+.home-pillars__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    border: 2px solid var(--color-border);
+    color: var(--color-gold);
+    margin-bottom: var(--space-lg);
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.home-pillars__item:hover .home-pillars__icon {
+    border-color: var(--color-gold);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-gold);
+}
+
+.home-pillars__item h3 {
+    margin-bottom: var(--space-xs);
+    color: var(--color-dark);
+}
+
+.home-pillars__subtitle {
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    color: var(--color-gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: var(--space-md);
+}
+
+/* ── CTA BANNER (dark) ── */
+.home-cta {
+    padding: var(--space-4xl) 0;
+    background: var(--color-dark-bg);
+    border-top: 3px solid var(--color-gold);
+}
+
+.home-cta__inner {
+    text-align: center;
+}
+
+.home-cta__inner h2 {
+    color: var(--color-white);
+    margin-bottom: var(--space-md);
+}
+
+.home-cta__inner p {
+    max-width: 500px;
+    margin: 0 auto var(--space-xl);
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+    .hero__content {
+        text-align: center;
+    }
+
+    .hero__subtitle {
+        margin: 0 auto var(--space-2xl);
+    }
+
+    .hero__ctas {
+        justify-content: center;
+    }
+
+    .home-services__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+
+    .home-pillars__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+}
