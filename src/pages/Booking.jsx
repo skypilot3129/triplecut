@@ -1,24 +1,34 @@
-import { useState } from 'react';
-import { Calendar, Clock, User, Phone, Scissors, Check } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Calendar, Clock, User, Phone, Scissors, Check, ArrowRight, ArrowLeft, MessageCircle } from 'lucide-react';
 import heroImg from '../assets/hero-booking.png';
-import useScrollReveal from '../hooks/useScrollReveal';
 import './Booking.css';
 
-
-const services = [
-    // HAIRCUT
-    'Gentleman — Rp 35.000',
-    'Kids Man Cut — Rp 30.000',
-    'Saving / Hair Tattoo — Rp 20.000',
-    // TREATMENT
-    'Creambath — Rp 60.000',
-    'Black Mask — Rp 20.000',
-    'Eye Mask — Rp 10.000',
-    // HAIR COLOR
-    'Semir Uban / Toning — Rp 60.000',
-    'Highlight / Bleaching Saja — Rp 100.000',
-    'Highlight / Bleaching Sampai Putih — Rp 150.000',
-    'Highlight Warna Fashion — Rp 200.000',
+const serviceCategories = [
+    {
+        category: '✂️ Haircut',
+        items: [
+            { name: 'Gentleman', price: 35000, desc: 'Cuci, Hair Tonik, Hot Towel, Styling' },
+            { name: 'Kids Man Cut', price: 30000, desc: 'Potongan anak laki-laki' },
+            { name: 'Saving / Hair Tattoo', price: 20000, desc: 'Cukur bersih / desain tattoo rambut' },
+        ],
+    },
+    {
+        category: '💆 Treatment',
+        items: [
+            { name: 'Creambath', price: 60000, desc: 'Perawatan nutrisi & pijat kepala' },
+            { name: 'Black Mask', price: 20000, desc: 'Masker wajah charcoal' },
+            { name: 'Eye Mask', price: 10000, desc: 'Masker mata relaksasi' },
+        ],
+    },
+    {
+        category: '🎨 Hair Color',
+        items: [
+            { name: 'Semir Uban / Toning', price: 60000, desc: 'Pewarnaan natural uban' },
+            { name: 'Highlight / Bleaching Saja', price: 100000, desc: 'Bleaching tanpa cat warna' },
+            { name: 'Bleaching Sampai Putih', price: 150000, desc: 'Full bleaching white/platinum' },
+            { name: 'Highlight Warna Fashion', price: 200000, desc: 'Warna fashion pilihan' },
+        ],
+    },
 ];
 
 const timeSlots = [
@@ -28,31 +38,37 @@ const timeSlots = [
     '19:00', '19:30', '20:00', '20:30',
 ];
 
+const fmt = (n) => 'Rp ' + n.toLocaleString('id-ID');
+
 export default function Booking() {
-    const [form, setForm] = useState({
-        name: '', phone: '', service: '', date: '', time: '',
-    });
+    const [step, setStep] = useState(1);
+    const [selected, setSelected] = useState([]); // array of {name, price, desc}
+    const [form, setForm] = useState({ name: '', phone: '', date: '', time: '' });
     const [submitted, setSubmitted] = useState(false);
 
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+    const total = useMemo(() => selected.reduce((s, i) => s + i.price, 0), [selected]);
+
+    const toggleService = (item) => {
+        setSelected((prev) =>
+            prev.find((s) => s.name === item.name)
+                ? prev.filter((s) => s.name !== item.name)
+                : [...prev, item]
+        );
     };
 
-    const handleTimeSelect = (time) => {
-        setForm({ ...form, time });
-    };
+    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-    const isValid = form.name && form.phone && form.service && form.date && form.time;
+    const canStep2 = selected.length > 0;
+    const canStep3 = form.name && form.phone && form.date && form.time;
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!isValid) return;
-
+    const handleSubmit = () => {
+        const serviceList = selected.map((s) => `  • ${s.name} — ${fmt(s.price)}`).join('\n');
         const message = encodeURIComponent(
             `Halo Vantex Barbershop! 🔥\n\nSaya ingin melakukan reservasi:\n\n` +
             `👤 Nama: ${form.name}\n` +
-            `📱 No. HP: ${form.phone}\n` +
-            `✂️ Layanan: ${form.service}\n` +
+            `📱 No. HP: ${form.phone}\n\n` +
+            `✂️ Layanan:\n${selected.map(s => `  • ${s.name} — ${fmt(s.price)}`).join('\n')}\n\n` +
+            `💰 Total: ${fmt(total)}\n\n` +
             `📅 Tanggal: ${form.date}\n` +
             `🕐 Jam: ${form.time}\n\n` +
             `Mohon konfirmasinya. Terima kasih!`
@@ -65,12 +81,10 @@ export default function Booking() {
         return (
             <div className="booking-page page-content">
                 <div className="booking-success">
-                    <div className="booking-success__icon">
-                        <Check size={48} />
-                    </div>
+                    <div className="booking-success__icon"><Check size={48} /></div>
                     <h2>Reservasi Terkirim!</h2>
-                    <p>Pesan WhatsApp Anda telah dibuka. Silakan konfirmasi dengan tim kami.</p>
-                    <button className="btn btn-primary" onClick={() => setSubmitted(false)}>
+                    <p>Pesan WhatsApp Anda telah dibuka. Tim kami akan mengkonfirmasi jadwal Anda.</p>
+                    <button className="btn btn-primary" onClick={() => { setSubmitted(false); setStep(1); setSelected([]); setForm({ name: '', phone: '', date: '', time: '' }); }}>
                         Buat Reservasi Lagi
                     </button>
                 </div>
@@ -80,136 +94,173 @@ export default function Booking() {
 
     return (
         <div className="booking-page page-content">
+            {/* HERO */}
             <section className="booking-hero" style={{ backgroundImage: `url(${heroImg})` }}>
                 <div className="booking-hero__overlay" />
                 <div className="container booking-hero__inner">
                     <div className="hero__badge">✦ BOOKING ONLINE</div>
                     <h1>Pesan Kursi <span className="text-gold">Sekarang</span></h1>
-                    <p>Isi form reservasi berikut dan tim kami akan mengkonfirmasi jadwal Anda via WhatsApp.</p>
+                    <p>3 langkah mudah — pilih layanan, isi data, konfirmasi via WhatsApp.</p>
                 </div>
             </section>
 
             <section className="section">
-                <div className="container booking-container">
+                <div className="container">
 
-                    {/* FORM */}
-                    <form className="booking-form glass-card" onSubmit={handleSubmit} id="booking-form">
-                        <h3 className="booking-form__title">
-                            <Scissors size={22} /> Form Reservasi
-                        </h3>
+                    {/* STEP INDICATOR */}
+                    <div className="bk-steps">
+                        {['Pilih Layanan', 'Data & Jadwal', 'Konfirmasi'].map((label, i) => (
+                            <div key={i} className={`bk-steps__item ${step > i + 1 ? 'bk-steps__item--done' : ''} ${step === i + 1 ? 'bk-steps__item--active' : ''}`}>
+                                <span className="bk-steps__num">{step > i + 1 ? '✓' : i + 1}</span>
+                                <span className="bk-steps__label">{label}</span>
+                            </div>
+                        ))}
+                        <div className="bk-steps__line" style={{ width: `${((step - 1) / 2) * 100}%` }} />
+                    </div>
 
-                        {/* Name */}
-                        <div className="booking-field">
-                            <label htmlFor="booking-name">
-                                <User size={16} /> Nama Lengkap
-                            </label>
-                            <input
-                                id="booking-name"
-                                type="text"
-                                name="name"
-                                placeholder="Masukkan nama Anda"
-                                value={form.name}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
+                    {/* ====== STEP 1: Service picker ====== */}
+                    {step === 1 && (
+                        <div className="bk-panel bk-step1">
+                            {serviceCategories.map((cat, ci) => (
+                                <div key={ci} className="bk-cat">
+                                    <h3 className="bk-cat__title">{cat.category}</h3>
+                                    <div className="bk-cat__grid">
+                                        {cat.items.map((item, ii) => {
+                                            const active = selected.find((s) => s.name === item.name);
+                                            return (
+                                                <button
+                                                    key={ii}
+                                                    className={`bk-service ${active ? 'bk-service--active' : ''}`}
+                                                    onClick={() => toggleService(item)}
+                                                    type="button"
+                                                >
+                                                    <span className="bk-service__check">{active ? <Check size={16} /> : null}</span>
+                                                    <span className="bk-service__name">{item.name}</span>
+                                                    <span className="bk-service__desc">{item.desc}</span>
+                                                    <span className="bk-service__price">{fmt(item.price)}</span>
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            ))}
 
-                        {/* Phone */}
-                        <div className="booking-field">
-                            <label htmlFor="booking-phone">
-                                <Phone size={16} /> Nomor WhatsApp
-                            </label>
-                            <input
-                                id="booking-phone"
-                                type="tel"
-                                name="phone"
-                                placeholder="Contoh: 08123456789"
-                                value={form.phone}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-
-                        {/* Service */}
-                        <div className="booking-field">
-                            <label htmlFor="booking-service">
-                                <Scissors size={16} /> Pilih Layanan
-                            </label>
-                            <select
-                                id="booking-service"
-                                name="service"
-                                value={form.service}
-                                onChange={handleChange}
-                                required
-                            >
-                                <option value="">-- Pilih layanan --</option>
-                                {services.map((s, i) => (
-                                    <option key={i} value={s}>{s}</option>
-                                ))}
-                            </select>
-                        </div>
-
-                        {/* Date */}
-                        <div className="booking-field">
-                            <label htmlFor="booking-date">
-                                <Calendar size={16} /> Tanggal
-                            </label>
-                            <input
-                                id="booking-date"
-                                type="date"
-                                name="date"
-                                value={form.date}
-                                onChange={handleChange}
-                                min={new Date().toISOString().split('T')[0]}
-                                required
-                            />
-                        </div>
-
-                        {/* Time Slots */}
-                        <div className="booking-field">
-                            <label><Clock size={16} /> Pilih Jam</label>
-                            <div className="booking-timeslots">
-                                {timeSlots.map((t) => (
-                                    <button
-                                        key={t}
-                                        type="button"
-                                        className={`booking-timeslot ${form.time === t ? 'booking-timeslot--active' : ''}`}
-                                        onClick={() => handleTimeSelect(t)}
-                                    >
-                                        {t}
-                                    </button>
-                                ))}
+                            {/* Bottom bar */}
+                            <div className="bk-bottom">
+                                <div className="bk-bottom__info">
+                                    <span className="bk-bottom__count">{selected.length} layanan dipilih</span>
+                                    <span className="bk-bottom__total">{fmt(total)}</span>
+                                </div>
+                                <button className="btn btn-primary" onClick={() => setStep(2)} disabled={!canStep2}>
+                                    Lanjut <ArrowRight size={18} />
+                                </button>
                             </div>
                         </div>
+                    )}
 
-                        <button
-                            type="submit"
-                            className="btn btn-primary booking-submit"
-                            disabled={!isValid}
-                            id="booking-submit"
-                        >
-                            Konfirmasi via WhatsApp
-                            <Phone size={18} />
-                        </button>
-                    </form>
+                    {/* ====== STEP 2: Data & Jadwal ====== */}
+                    {step === 2 && (
+                        <div className="bk-panel bk-step2">
+                            <div className="bk-form glass-card">
+                                <h3 className="bk-form__title"><User size={20} /> Data Anda</h3>
 
-                    {/* SIDEBAR INFO */}
-                    <div className="booking-info">
-                        <div className="glass-card booking-info__card">
-                            <h4>📍 Lokasi</h4>
-                            <p>Jl. Sisingamangaraja, Perak Tim., Kec. Pabean Cantian, Surabaya</p>
+                                <div className="bk-field">
+                                    <label htmlFor="bk-name"><User size={14} /> Nama Lengkap</label>
+                                    <input id="bk-name" name="name" type="text" placeholder="Masukkan nama" value={form.name} onChange={handleChange} />
+                                </div>
+
+                                <div className="bk-field">
+                                    <label htmlFor="bk-phone"><Phone size={14} /> Nomor WhatsApp</label>
+                                    <input id="bk-phone" name="phone" type="tel" placeholder="08123456789" value={form.phone} onChange={handleChange} />
+                                </div>
+
+                                <div className="bk-field">
+                                    <label htmlFor="bk-date"><Calendar size={14} /> Pilih Tanggal</label>
+                                    <input id="bk-date" name="date" type="date" value={form.date} onChange={handleChange} min={new Date().toISOString().split('T')[0]} />
+                                </div>
+
+                                <div className="bk-field">
+                                    <label><Clock size={14} /> Pilih Jam</label>
+                                    <div className="bk-timegrid">
+                                        {timeSlots.map((t) => (
+                                            <button key={t} type="button"
+                                                className={`bk-time ${form.time === t ? 'bk-time--active' : ''}`}
+                                                onClick={() => setForm({ ...form, time: t })}
+                                            >{t}</button>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Nav */}
+                            <div className="bk-bottom">
+                                <button className="btn btn-outline" onClick={() => setStep(1)}>
+                                    <ArrowLeft size={18} /> Kembali
+                                </button>
+                                <button className="btn btn-primary" onClick={() => setStep(3)} disabled={!canStep3}>
+                                    Lanjut <ArrowRight size={18} />
+                                </button>
+                            </div>
                         </div>
-                        <div className="glass-card booking-info__card">
-                            <h4>⏰ Jam Buka</h4>
-                            <p>Senin–Jumat: 09.00–21.00</p>
-                            <p>Sabtu: 08.00–22.00</p>
-                            <p>Minggu: 10.00–20.00</p>
+                    )}
+
+                    {/* ====== STEP 3: Nota / Preview ====== */}
+                    {step === 3 && (
+                        <div className="bk-panel bk-step3">
+                            <div className="bk-nota glass-card">
+                                <div className="bk-nota__header">
+                                    <Scissors size={24} />
+                                    <div>
+                                        <h3>Nota Reservasi</h3>
+                                        <span>Vantex Barbershop · Surabaya</span>
+                                    </div>
+                                </div>
+
+                                <div className="bk-nota__divider" />
+
+                                <div className="bk-nota__section">
+                                    <h4>👤 Data Pelanggan</h4>
+                                    <p><strong>{form.name}</strong></p>
+                                    <p>{form.phone}</p>
+                                </div>
+
+                                <div className="bk-nota__section">
+                                    <h4>📅 Jadwal</h4>
+                                    <p>{form.date} — <strong>{form.time} WIB</strong></p>
+                                </div>
+
+                                <div className="bk-nota__divider" />
+
+                                <div className="bk-nota__section">
+                                    <h4>✂️ Layanan</h4>
+                                    {selected.map((s, i) => (
+                                        <div key={i} className="bk-nota__line">
+                                            <span>{s.name}</span>
+                                            <span>{fmt(s.price)}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="bk-nota__divider" />
+
+                                <div className="bk-nota__total">
+                                    <span>Total</span>
+                                    <span>{fmt(total)}</span>
+                                </div>
+                            </div>
+
+                            {/* Actions */}
+                            <div className="bk-bottom">
+                                <button className="btn btn-outline" onClick={() => setStep(2)}>
+                                    <ArrowLeft size={18} /> Edit
+                                </button>
+                                <button className="btn btn-primary bk-wa-btn" onClick={handleSubmit}>
+                                    <MessageCircle size={18} /> Kirim via WhatsApp
+                                </button>
+                            </div>
                         </div>
-                        <div className="glass-card booking-info__card booking-info__tip">
-                            <h4>💡 Tips</h4>
-                            <p>Reservasi minimal 1 jam sebelum kedatangan. Pembatalan harap hubungi kami min. 30 menit sebelumnya.</p>
-                        </div>
-                    </div>
+                    )}
+
                 </div>
             </section>
         </div>
