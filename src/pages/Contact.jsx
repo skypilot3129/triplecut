@@ -1,5 +1,6 @@
 import { MapPin, Phone, Clock, MessageCircle, Navigation } from 'lucide-react';
 import heroImg from '../assets/hero-contact.png';
+import useScrollReveal from '../hooks/useScrollReveal';
 import './Contact.css';
 
 

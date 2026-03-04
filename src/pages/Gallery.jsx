@@ -7,6 +7,7 @@ import img2 from '../assets/gallery2.png';
 import img3 from '../assets/gallery3.png';
 import img4 from '../assets/gallery4.png';
 import img5 from '../assets/gallery5.png';
+import useScrollReveal from '../hooks/useScrollReveal';
 import './Gallery.css';
 
 const categories = ['Semua', 'Haircut', 'Hair Color', 'Fade', 'Curly'];

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Calendar, Clock, User, Phone, Scissors, Check } from 'lucide-react';
 import heroImg from '../assets/hero-booking.png';
+import useScrollReveal from '../hooks/useScrollReveal';
 import './Booking.css';
 
 

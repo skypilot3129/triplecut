@@ -1,6 +1,7 @@
 import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import heroImg from '../assets/hero-services.png';
+import useScrollReveal from '../hooks/useScrollReveal';
 import './Services.css';
 
 
@@ -96,12 +97,14 @@ const serviceCategories = [
 ];
 
 export default function Services() {
+    const headerRef = useScrollReveal({ threshold: 0.15 });
+
     return (
         <div className="services-page page-content">
             <section className="services-hero" style={{ backgroundImage: `url(${heroImg})` }}>
                 <div className="services-hero__overlay" />
                 <div className="container services-hero__inner">
-                    <div className="hero__badge">✦ LAYANAN & HARGA</div>
+                    <div className="hero__badge">✦ LAYANAN &amp; HARGA</div>
                     <h1>Layanan <span className="text-gold">Resmi</span> Kami</h1>
                     <p>Harga terjangkau, kualitas premium. Semua layanan ditangani barber profesional.</p>
                 </div>
@@ -109,32 +112,35 @@ export default function Services() {
 
             <section className="section">
                 <div className="container">
-                    {serviceCategories.map((cat, ci) => (
-                        <div key={ci} className="services-category">
-                            <div className="services-category__header">
-                                <span className="services-category__icon">{cat.icon}</span>
-                                <h2>{cat.category}</h2>
+                    {serviceCategories.map((cat, ci) => {
+                        const catRef = useScrollReveal({ stagger: true, staggerDelay: 100 });
+                        return (
+                            <div key={ci} className="services-category">
+                                <div className="services-category__header reveal reveal-left" ref={useScrollReveal()}>
+                                    <span className="services-category__icon">{cat.icon}</span>
+                                    <h2>{cat.category}</h2>
+                                </div>
+                                <div className="services-grid" ref={catRef}>
+                                    {cat.services.map((s, si) => (
+                                        <div key={si} className={`glass-card services-card hover-lift hover-glow reveal reveal-up ${s.popular ? 'services-card--popular' : ''}`}>
+                                            {s.popular && <span className="services-card__badge">Terlaris</span>}
+                                            <h3>{s.title}</h3>
+                                            <p className="services-card__desc">{s.desc}</p>
+                                            <div className="services-card__price">{s.price}</div>
+                                            <ul className="services-card__features">
+                                                {s.features.map((f, fi) => (
+                                                    <li key={fi}><Check size={14} /> {f}</li>
+                                                ))}
+                                            </ul>
+                                            <Link to="/booking" className={`btn ${s.popular ? 'btn-primary' : 'btn-outline'} btn-sm`}>
+                                                Pesan
+                                            </Link>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <div className="services-grid">
-                                {cat.services.map((s, si) => (
-                                    <div key={si} className={`glass-card services-card ${s.popular ? 'services-card--popular' : ''}`}>
-                                        {s.popular && <span className="services-card__badge">Terlaris</span>}
-                                        <h3>{s.title}</h3>
-                                        <p className="services-card__desc">{s.desc}</p>
-                                        <div className="services-card__price">{s.price}</div>
-                                        <ul className="services-card__features">
-                                            {s.features.map((f, fi) => (
-                                                <li key={fi}><Check size={14} /> {f}</li>
-                                            ))}
-                                        </ul>
-                                        <Link to="/booking" className={`btn ${s.popular ? 'btn-primary' : 'btn-outline'} btn-sm`}>
-                                            Pesan
-                                        </Link>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </section>
         </div>
