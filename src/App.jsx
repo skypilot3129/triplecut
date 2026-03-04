@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppFAB from './components/WhatsAppFAB';
 import LoadingScreen from './components/LoadingScreen';
+import useSectionNav from './hooks/useSectionNav';
 import './App.css';
 
 // Code-splitting: each page loads only when visited
@@ -37,6 +38,7 @@ function PageFallback() {
 export default function App() {
   const [loading, setLoading] = useState(true);
   const handleFinish = useCallback(() => setLoading(false), []);
+  useSectionNav(); // arrow key section scrolling
 
   return (
     <>

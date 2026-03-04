@@ -475,8 +475,8 @@ p {
 /* ── Base: hidden state ── */
 .reveal {
   opacity: 0;
-  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
@@ -488,23 +488,23 @@ p {
 
 /* ── Animation variants ── */
 .reveal-up {
-  transform: translateY(40px);
+  transform: translateY(60px);
 }
 
 .reveal-down {
-  transform: translateY(-30px);
+  transform: translateY(-40px);
 }
 
 .reveal-left {
-  transform: translateX(-50px);
+  transform: translateX(-70px);
 }
 
 .reveal-right {
-  transform: translateX(50px);
+  transform: translateX(70px);
 }
 
 .reveal-scale {
-  transform: scale(0.88);
+  transform: scale(0.85);
 }
 
 .reveal-fade {
@@ -519,23 +519,23 @@ p {
 }
 
 .reveal:nth-child(2) {
-  transition-delay: 100ms;
+  transition-delay: 160ms;
 }
 
 .reveal:nth-child(3) {
-  transition-delay: 200ms;
+  transition-delay: 320ms;
 }
 
 .reveal:nth-child(4) {
-  transition-delay: 300ms;
+  transition-delay: 480ms;
 }
 
 .reveal:nth-child(5) {
-  transition-delay: 400ms;
+  transition-delay: 640ms;
 }
 
 .reveal:nth-child(6) {
-  transition-delay: 500ms;
+  transition-delay: 800ms;
 }
 
 /* =========================================
