@@ -31,9 +31,9 @@ export default function Navbar() {
         <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
             <div className="container navbar__inner">
                 <Link to="/" className="navbar__logo">
-                    <img src={logoImg} alt="Triple Cut Barbershop" className="navbar__logo-img" />
+                    <img src={logoImg} alt="Vantex Barbershop" className="navbar__logo-img" />
                     <span className="navbar__logo-text">
-                        Triple<span className="navbar__logo-accent">Cut</span>
+                        VAN<span className="navbar__logo-accent">TEX</span>
                     </span>
                 </Link>
 

@@ -48,7 +48,7 @@ export default function Booking() {
         if (!isValid) return;
 
         const message = encodeURIComponent(
-            `Halo Triple Cut Barbershop! 🔥\n\nSaya ingin melakukan reservasi:\n\n` +
+            `Halo Vantex Barbershop! 🔥\n\nSaya ingin melakukan reservasi:\n\n` +
             `👤 Nama: ${form.name}\n` +
             `📱 No. HP: ${form.phone}\n` +
             `✂️ Layanan: ${form.service}\n` +

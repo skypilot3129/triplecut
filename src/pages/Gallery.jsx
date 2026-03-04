@@ -33,7 +33,7 @@ export default function Gallery() {
                 <div className="container gallery-hero__inner">
                     <div className="hero__badge">✦ GALERI KARYA</div>
                     <h1>Hasil Karya <span className="text-gold">Kami</span></h1>
-                    <p>Portofolio nyata dari pelanggan Triple Cut Barbershop Surabaya.</p>
+                    <p>Portofolio nyata dari pelanggan Vantex Barbershop Surabaya.</p>
                 </div>
             </section>
 
@@ -75,11 +75,11 @@ export default function Gallery() {
                 <div className="container" style={{ textAlign: 'center' }}>
                     <div className="section-header">
                         <h2>Ikuti Kami di Media Sosial</h2>
-                        <p>Update potongan terbaru, promo, dan konten menarik dari Triple Cut Barbershop.</p>
+                        <p>Update potongan terbaru, promo, dan konten menarik dari Vantex Barbershop.</p>
                     </div>
                     <div className="gallery-social__btns">
                         <a
-                            href="https://tiktok.com/@triple.cut.barber"
+                            href="https://tiktok.com/@vantex.barbershop"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn btn-primary"
@@ -87,16 +87,16 @@ export default function Gallery() {
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.73a8.19 8.19 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.16z" />
                             </svg>
-                            TikTok @triple.cut.barber
+                            TikTok @vantex.barbershop
                         </a>
                         <a
-                            href="https://instagram.com/triple.cut.barber"
+                            href="https://instagram.com/vantex.barbershop"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn btn-outline"
                         >
                             <ExternalLink size={18} />
-                            Instagram @triple.cut.barber
+                            Instagram @vantex.barbershop
                         </a>
                     </div>
                 </div>

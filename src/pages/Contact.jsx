@@ -11,7 +11,7 @@ const hours = [
 
 export default function Contact() {
     const phoneNumber = '6285940722924';
-    const waMessage = encodeURIComponent('Halo Triple Cut! Saya ingin tanya tentang layanan barbershop.');
+    const waMessage = encodeURIComponent('Halo Vantex Barbershop! Saya ingin tanya tentang layanan barbershop.');
     const waLink = `https://wa.me/${phoneNumber}?text=${waMessage}`;
     const mapsLink = 'https://maps.google.com/?q=Triple+cut+barbershop+Surabaya';
 
@@ -31,7 +31,7 @@ export default function Contact() {
                     {/* MAP */}
                     <div className="contact-map">
                         <iframe
-                            title="Triple Cut Barbershop Location"
+                            title="Vantex Barbershop Location"
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15832.64278239043!2d112.7356159!3d-7.2225044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7f900149ad2e9%3A0x176bb2ab9187f4c2!2sTriple%20cut%20barbershop!5e0!3m2!1sid!2sid!4v1772439166501!5m2!1sid!2sid"
                             width="100%"
                             height="100%"

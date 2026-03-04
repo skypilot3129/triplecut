@@ -56,12 +56,12 @@ export default function LoadingScreen({ onFinish }) {
                 {/* Scissors spinning around logo */}
                 <div className="ls__logo-wrap">
                     <div className="ls__ring" />
-                    <img src={logoImg} alt="Triple Cut" className="ls__logo" />
+                    <img src={logoImg} alt="Vantex Barbershop" className="ls__logo" />
                 </div>
 
                 <div className="ls__brand">
                     <span className="ls__brand-name">
-                        TRIPLE<span className="ls__brand-accent">CUT</span>
+                        VAN<span className="ls__brand-accent">TEX</span>
                     </span>
                     <span className="ls__brand-sub">BARBERSHOP · SURABAYA</span>
                 </div>

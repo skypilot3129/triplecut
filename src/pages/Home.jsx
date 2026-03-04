@@ -51,7 +51,7 @@ export default function Home() {
             {/* HERO */}
             <section className="hero" id="hero">
                 <div className="hero__bg">
-                    <img src={heroBanner} alt="Triple Cut Barbershop Interior" />
+                    <img src={heroBanner} alt="Vantex Barbershop Interior" />
                     <div className="hero__overlay" />
                 </div>
                 <div className="container hero__content">
@@ -61,7 +61,7 @@ export default function Home() {
                         <span className="hero__title-accent">Gaya Maksimal.</span>
                     </h1>
                     <p className="hero__subtitle">
-                        Triple Cut Barbershop menghadirkan pengalaman cukur rambut premium dengan teknik presisi dan pelayanan terbaik di jantung kota Surabaya.
+                        Vantex Barbershop menghadirkan pengalaman cukur rambut premium. Terdepan dalam presisi, artisan dalam gaya — standar baru gentleman Surabaya.
                     </p>
                     <div className="hero__ctas">
                         <Link to="/booking" className="btn btn-primary">
@@ -105,7 +105,7 @@ export default function Home() {
             <section className="section home-pillars" id="pillars">
                 <div className="container">
                     <div className="section-header">
-                        <h2>Kenapa Triple Cut?</h2>
+                        <h2>Kenapa Vantex?</h2>
                         <p>Tiga pilar utama yang menjadikan kami standar baru barbershop di Surabaya.</p>
                     </div>
                     <div className="home-pillars__grid">

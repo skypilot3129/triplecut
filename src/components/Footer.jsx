@@ -11,20 +11,20 @@ export default function Footer() {
                     <div className="footer__brand">
                         <div className="footer__logo">
                             <span className="footer__logo-text">
-                                Triple<span className="footer__logo-accent">Cut</span>{' '}
+                                VAN<span className="footer__logo-accent">TEX</span>{' '}
                                 <span className="footer__logo-sub">Barbershop</span>
                             </span>
                         </div>
                         <p className="footer__desc">
-                            Barbershop premium di Surabaya dengan teknik presisi dan pelayanan terbaik. Standar baru gentleman Surabaya.
+                            Barbershop premium di Surabaya. Terdepan dalam presisi, artisan dalam gaya, excellence dalam pelayanan.
                         </p>
                         <div className="footer__socials">
-                            <a href="https://tiktok.com/@triple.cut.barber" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="footer__social-link">
+                            <a href="https://tiktok.com/@vantex.barbershop" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="footer__social-link">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.73a8.19 8.19 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.16z" />
                                 </svg>
                             </a>
-                            <a href="https://instagram.com/triple.cut.barber" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="footer__social-link">
+                            <a href="https://instagram.com/vantex.barbershop" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="footer__social-link">
                                 <Instagram size={20} />
                             </a>
                         </div>
@@ -46,11 +46,11 @@ export default function Footer() {
                     <div className="footer__section">
                         <h4 className="footer__heading">Layanan</h4>
                         <ul className="footer__list">
-                            <li>Triple Signature Cut</li>
-                            <li>Father &amp; Son</li>
-                            <li>Gentleman Shave</li>
-                            <li>Hair Coloring</li>
-                            <li>Hair Spa / Treatment</li>
+                            <li>Gentleman Cut</li>
+                            <li>Kids Man Cut</li>
+                            <li>Saving / Hair Tattoo</li>
+                            <li>Creambath Treatment</li>
+                            <li>Highlight Warna Fashion</li>
                         </ul>
                     </div>
 
@@ -76,7 +76,7 @@ export default function Footer() {
 
                 <div className="footer__bottom">
                     <div className="gold-divider" />
-                    <p>&copy; 2026 Triple Cut Barbershop. All rights reserved.</p>
+                    <p>&copy; 2026 Vantex Barbershop. All rights reserved.</p>
                 </div>
             </div>
         </footer>

@@ -16,8 +16,8 @@ export default function About() {
                 <div className="about-hero__overlay" />
                 <div className="container about-hero__inner">
                     <div className="hero__badge">✦ TENTANG KAMI</div>
-                    <h1>Cerita Di Balik <span className="text-gold">Triple Cut</span></h1>
-                    <p>Barbershop premium yang lahir dari passion terhadap seni grooming dan gaya hidup pria modern di Surabaya.</p>
+                    <h1>Cerita Di Balik <span className="text-gold">Vantex</span></h1>
+                    <p>Lahir dari passion terhadap presisi dan keahlian sejati — barbershop yang tidak sekadar memotong, tapi menciptakan identitas.</p>
                 </div>
             </section>
 
@@ -25,24 +25,24 @@ export default function About() {
             <section className="section about-philosophy">
                 <div className="container">
                     <div className="section-header">
-                        <h2>Filosofi Triple Cut</h2>
-                        <p>Nama "Triple Cut" mewakili tiga pilar utama yang menjadi fondasi pelayanan kami.</p>
+                        <h2>Filosofi Vantex</h2>
+                        <p>Nama "VANTEX" mewakili tiga nilai utama yang menjadi fondasi setiap layanan kami.</p>
                     </div>
                     <div className="about-philosophy__grid">
                         <div className="glass-card about-philosophy__card">
                             <div className="about-philosophy__icon"><Scissors size={40} /></div>
-                            <h3>Teknik <span className="text-gold-sm">(Skill)</span></h3>
-                            <p>Setiap kapster kami terlatih dalam teknik potong rambut terkini — dari classic hingga modern fade. Kami percaya bahwa keahlian adalah pondasi dari setiap potongan sempurna.</p>
+                            <h3>Vanguard <span className="text-gold-sm">(Terdepan)</span></h3>
+                            <p>Kami selalu menjadi yang pertama mengadopsi teknik dan tren terkini. Inovasi bukan pilihan — itu standar kami.</p>
                         </div>
                         <div className="glass-card about-philosophy__card">
                             <div className="about-philosophy__icon"><ShieldCheck size={40} /></div>
-                            <h3>Kebersihan <span className="text-gold-sm">(Hygiene)</span></h3>
-                            <p>Alat-alat kami selalu disterilkan sebelum dan sesudah penggunaan. Kami menjaga standar kebersihan tertinggi untuk kenyamanan dan keamanan pelanggan.</p>
+                            <h3>Artisan <span className="text-gold-sm">(Keahlian)</span></h3>
+                            <p>Setiap potongan adalah karya seni. Kapster kami tidak hanya memotong rambut — mereka merancang identitas visual Anda.</p>
                         </div>
                         <div className="glass-card about-philosophy__card">
                             <div className="about-philosophy__icon"><Sparkles size={40} /></div>
-                            <h3>Kenyamanan <span className="text-gold-sm">(Comfort)</span></h3>
-                            <p>Interior maskulin yang instagramable, kursi premium, AC, WiFi gratis, dan minuman — semua dirancang agar Anda rileks menikmati proses grooming.</p>
+                            <h3>Excellence <span className="text-gold-sm">(Keunggulan)</span></h3>
+                            <p>Standar higienitas tertinggi, interior premium, produk terbaik, dan pelayanan yang melampaui ekspektasi — tanpa kompromi.</p>
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@ export default function About() {
                 <div className="container">
                     <div className="section-header">
                         <h2>Tim Barber Kami</h2>
-                        <p>Para profesional berpengalaman yang siap memberikan potongan terbaik untuk Anda.</p>
+                        <p>Para artisan berpengalaman yang siap memberikan potongan terbaik untuk Anda.</p>
                     </div>
                     <div className="about-team__grid">
                         {team.map((member, i) => (
