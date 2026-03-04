@@ -1,0 +1,82 @@
+/* ========= BACK TO TOP BUTTON ========= */
+.btt {
+    position: fixed;
+    bottom: 100px;
+    right: 28px;
+    z-index: 900;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--color-dark);
+    color: var(--color-white);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btt--show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.btt:hover {
+    background: var(--color-gold);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(184, 134, 11, 0.35);
+}
+
+/* Progress ring */
+.btt__ring {
+    position: absolute;
+    inset: -3px;
+    width: calc(100% + 6px);
+    height: calc(100% + 6px);
+    transform: rotate(-90deg);
+}
+
+.btt__ring-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 2;
+}
+
+.btt__ring-fill {
+    fill: none;
+    stroke: var(--color-gold);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.15s ease;
+}
+
+.btt__icon {
+    position: relative;
+    z-index: 1;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .btt {
+    background: var(--color-white);
+    color: var(--color-dark);
+}
+
+[data-theme="dark"] .btt:hover {
+    background: var(--color-gold);
+    color: var(--color-white);
+}
+
+@media (max-width: 768px) {
+    .btt {
+        bottom: 90px;
+        right: 16px;
+        width: 44px;
+        height: 44px;
+    }
+}

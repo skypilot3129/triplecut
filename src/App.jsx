@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppFAB from './components/WhatsAppFAB';
+import BackToTop from './components/BackToTop';
 import LoadingScreen from './components/LoadingScreen';
 import useSectionNav from './hooks/useSectionNav';
 import './App.css';
@@ -38,11 +39,10 @@ function PageFallback() {
 export default function App() {
   const [loading, setLoading] = useState(true);
   const handleFinish = useCallback(() => setLoading(false), []);
-  useSectionNav(); // arrow key section scrolling
+  useSectionNav();
 
   return (
     <>
-      {/* Preload screen — shown only on first visit */}
       {loading && <LoadingScreen onFinish={handleFinish} />}
 
       <div className="app-layout" style={{ visibility: loading ? 'hidden' : 'visible' }}>
@@ -61,6 +61,7 @@ export default function App() {
         </main>
         <Footer />
         <WhatsAppFAB />
+        <BackToTop />
       </div>
     </>
   );

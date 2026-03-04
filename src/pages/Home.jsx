@@ -1,7 +1,15 @@
+import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Scissors, Sparkles, ShieldCheck, ArrowRight, Star } from 'lucide-react';
 import heroBanner from '../assets/hero-banner.png';
+import img1 from '../assets/gallery1.png';
+import img2 from '../assets/gallery2.png';
+import img3 from '../assets/gallery3.png';
+import img4 from '../assets/gallery4.png';
 import useScrollReveal from '../hooks/useScrollReveal';
+import useCountUp from '../hooks/useCountUp';
+import Lightbox from '../components/Lightbox';
+import Testimonials from '../components/Testimonials';
 import './Home.css';
 
 const services = [
@@ -11,15 +19,36 @@ const services = [
 ];
 
 const pillars = [
-    { icon: <Scissors size={36} />, title: 'Vanguard', subtitle: 'Terdepan', desc: 'Selalu menjadi yang pertama mengadopsi teknik dan tren terkini dalam dunia barber.' },
-    { icon: <ShieldCheck size={36} />, title: 'Artisan', subtitle: 'Keahlian', desc: 'Setiap potongan adalah karya seni. Kami merancang identitas visual Anda, bukan sekadar memotong.' },
-    { icon: <Sparkles size={36} />, title: 'Excellence', subtitle: 'Keunggulan', desc: 'Standar higienitas tertinggi, interior premium, dan pelayanan yang melampaui ekspektasi.' },
+    { icon: <Scissors size={36} />, title: 'Vanguard', subtitle: 'Terdepan', desc: 'Selalu menjadi yang pertama mengadopsi teknik dan tren terkini.' },
+    { icon: <ShieldCheck size={36} />, title: 'Artisan', subtitle: 'Keahlian', desc: 'Setiap potongan adalah karya seni. Kami merancang identitas visual Anda.' },
+    { icon: <Sparkles size={36} />, title: 'Excellence', subtitle: 'Keunggulan', desc: 'Standar kebersihan tertinggi dan pelayanan melampaui ekspektasi.' },
+];
+
+const galleryImages = [
+    { src: img1, alt: 'Skin Fade Cut', category: 'Haircut' },
+    { src: img2, alt: 'Classic Gentleman Style', category: 'Haircut' },
+    { src: img3, alt: 'Modern Textured Crop', category: 'Fade' },
+    { src: img4, alt: 'Blonde Highlight', category: 'Hair Color' },
 ];
 
 export default function Home() {
     const servicesRef = useScrollReveal({ stagger: true });
     const pillarsRef = useScrollReveal({ stagger: true });
+    const galleryRef = useScrollReveal({ stagger: true, staggerDelay: 100 });
     const ctaRef = useScrollReveal({ threshold: 0.2 });
+
+    // Counter animations
+    const years = useCountUp(3, 2000);
+    const clients = useCountUp(5000, 2500);
+    const barbers = useCountUp(3, 1200);
+    const rating = useCountUp(49, 2000); // 4.9 → count to 49, display /10
+
+    // Lightbox state
+    const [lbIndex, setLbIndex] = useState(-1);
+    const openLb = useCallback((i) => setLbIndex(i), []);
+    const closeLb = useCallback(() => setLbIndex(-1), []);
+    const prevLb = useCallback(() => setLbIndex((p) => (p - 1 + galleryImages.length) % galleryImages.length), []);
+    const nextLb = useCallback(() => setLbIndex((p) => (p + 1) % galleryImages.length), []);
 
     return (
         <div className="home">
@@ -48,13 +77,9 @@ export default function Home() {
                         </Link>
                     </div>
                 </div>
-                {/* Scroll indicator */}
-                <div className="hero__scroll-hint">
-                    <span />
-                </div>
+                <div className="hero__scroll-hint"><span /></div>
             </section>
 
-            {/* GOLD WAVE DIVIDER */}
             <hr className="section-wave" />
 
             {/* SERVICES PREVIEW */}
@@ -83,7 +108,70 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* GOLD WAVE DIVIDER */}
+            <hr className="section-wave" />
+
+            {/* STATS with animated counters */}
+            <section className="home-stats" id="stats">
+                <div className="container home-stats__grid">
+                    <div className="home-stats__item" ref={years.ref}>
+                        <span className="home-stats__number">{years.value}+</span>
+                        <span className="home-stats__label">Tahun Pengalaman</span>
+                    </div>
+                    <div className="home-stats__item" ref={clients.ref}>
+                        <span className="home-stats__number">{clients.value.toLocaleString()}+</span>
+                        <span className="home-stats__label">Pelanggan Puas</span>
+                    </div>
+                    <div className="home-stats__item" ref={barbers.ref}>
+                        <span className="home-stats__number">{barbers.value}</span>
+                        <span className="home-stats__label">Barber Profesional</span>
+                    </div>
+                    <div className="home-stats__item" ref={rating.ref}>
+                        <span className="home-stats__number">{(rating.value / 10).toFixed(1)}</span>
+                        <span className="home-stats__label">Rating Google</span>
+                    </div>
+                </div>
+            </section>
+
+            <hr className="section-wave" />
+
+            {/* GALLERY PREVIEW with Lightbox */}
+            <section className="section home-gallery" id="gallery-preview">
+                <div className="container">
+                    <div className="section-header reveal reveal-up" ref={useScrollReveal()}>
+                        <h2>Hasil Karya Terbaru</h2>
+                        <p>Klik foto untuk lihat detail potongan. Setiap guntingan adalah karya seni.</p>
+                    </div>
+                    <div className="home-gallery__grid" ref={galleryRef}>
+                        {galleryImages.map((img, i) => (
+                            <div key={i} className="home-gallery__item reveal reveal-scale" onClick={() => openLb(i)}>
+                                <img src={img.src} alt={img.alt} loading="lazy" />
+                                <div className="home-gallery__overlay">
+                                    <span className="home-gallery__tag">{img.category}</span>
+                                    <span className="home-gallery__zoom">🔍 Lihat</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="home-services__cta reveal reveal-up" ref={useScrollReveal()}>
+                        <Link to="/gallery" className="btn btn-outline">
+                            Lihat Semua Galeri
+                            <ArrowRight size={18} />
+                        </Link>
+                    </div>
+                </div>
+            </section>
+
+            {/* Lightbox modal */}
+            {lbIndex >= 0 && (
+                <Lightbox
+                    images={galleryImages}
+                    currentIndex={lbIndex}
+                    onClose={closeLb}
+                    onPrev={prevLb}
+                    onNext={nextLb}
+                />
+            )}
+
             <hr className="section-wave" />
 
             {/* PILLARS */}
@@ -105,6 +193,11 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+
+            <hr className="section-wave" />
+
+            {/* TESTIMONIALS CAROUSEL */}
+            <Testimonials />
 
             {/* CTA BANNER */}
             <section className="home-cta" id="cta-banner">

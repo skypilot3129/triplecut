@@ -88,6 +88,43 @@
   --navbar-height: 72px;
 }
 
+/* ── Dark Theme Overrides ── */
+[data-theme="dark"] {
+  --color-white: #1a1a1a;
+  --color-light: #121212;
+  --color-light-2: #1e1e1e;
+  --color-cream: #1c1a16;
+  --color-border: #333333;
+
+  --color-dark: #f0f0f0;
+  --color-charcoal: #e0e0e0;
+  --color-gray-dark: #cccccc;
+  --color-gray: #aaaaaa;
+  --color-gray-light: #888888;
+
+  --color-gold-bg: rgba(184, 134, 11, 0.12);
+  --color-gold-border: rgba(184, 134, 11, 0.25);
+
+  --color-dark-bg: #0d0d0d;
+  --gradient-overlay: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.65));
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* Smooth color transition */
+body,
+.glass-card,
+.navbar,
+.footer,
+.section,
+.section-header h2,
+.btn {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+
 /* ── Reset & Base ── */
 *,
 *::before,

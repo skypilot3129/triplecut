@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 import logoImg from '../assets/logo.png';
 import './Navbar.css';
 
@@ -16,6 +17,7 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const location = useLocation();
+    const { dark, toggle } = useTheme();
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -55,17 +57,24 @@ export default function Navbar() {
                     </li>
                 </ul>
 
-                <Link to="/booking" className="btn btn-primary btn-sm navbar__cta-desktop">
-                    Pesan Sekarang
-                </Link>
+                <div className="navbar__actions">
+                    {/* Theme toggle */}
+                    <button className="navbar__theme-toggle" onClick={toggle} aria-label="Toggle dark mode">
+                        {dark ? <Sun size={20} /> : <Moon size={20} />}
+                    </button>
 
-                <button
-                    className="navbar__toggle"
-                    onClick={() => setIsOpen(!isOpen)}
-                    aria-label="Toggle menu"
-                >
-                    {isOpen ? <X size={26} /> : <Menu size={26} />}
-                </button>
+                    <Link to="/booking" className="btn btn-primary btn-sm navbar__cta-desktop">
+                        Pesan Sekarang
+                    </Link>
+
+                    <button
+                        className="navbar__toggle"
+                        onClick={() => setIsOpen(!isOpen)}
+                        aria-label="Toggle menu"
+                    >
+                        {isOpen ? <X size={26} /> : <Menu size={26} />}
+                    </button>
+                </div>
             </div>
 
             {isOpen && <div className="navbar__overlay" onClick={() => setIsOpen(false)} />}
