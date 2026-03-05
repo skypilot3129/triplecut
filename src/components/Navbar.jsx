@@ -10,6 +10,7 @@ const navLinks = [
     { path: '/about', label: 'Tentang Kami' },
     { path: '/services', label: 'Layanan' },
     { path: '/gallery', label: 'Galeri' },
+    { path: '/ai-advisor', label: 'AI Advisor' },
     { path: '/contact', label: 'Kontak' },
 ];
 

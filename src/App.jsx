@@ -15,6 +15,7 @@ const Services = lazy(() => import('./pages/Services'));
 const Gallery = lazy(() => import('./pages/Gallery'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Booking = lazy(() => import('./pages/Booking'));
+const HairAdvisor = lazy(() => import('./pages/HairAdvisor'));
 
 // Minimal inline fallback for page-to-page transitions
 function PageFallback() {
@@ -56,6 +57,7 @@ export default function App() {
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/booking" element={<Booking />} />
+              <Route path="/ai-advisor" element={<HairAdvisor />} />
             </Routes>
           </Suspense>
         </main>
