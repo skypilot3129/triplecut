@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
-import { Camera, Upload, Sparkles, RotateCcw, Scissors, Star, Info, ArrowRight, AlertTriangle } from 'lucide-react';
+import { Camera, Upload, Sparkles, RotateCcw, Scissors, Star, Info, ArrowRight, AlertTriangle, ImageIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { analyzeHairstyle } from '../services/geminiService';
+import { analyzeHairstyle, generateHairstyleImage } from '../services/geminiService';
 import heroImg from '../assets/hero-about.png';
 import './HairAdvisor.css';
 
@@ -11,8 +11,10 @@ const maintColors = { 'Rendah': '#22c55e', 'Sedang': '#f59e0b', 'Tinggi': '#ef44
 export default function HairAdvisor() {
     const [phase, setPhase] = useState('upload'); // upload | analyzing | results | error
     const [preview, setPreview] = useState(null);
-    const [imageData, setImageData] = useState(null); // {base64, mimeType}
+    const [imageData, setImageData] = useState(null);
     const [result, setResult] = useState(null);
+    const [recImages, setRecImages] = useState({}); // { index: dataURI }
+    const [loadingImages, setLoadingImages] = useState({}); // { index: true }
     const [error, setError] = useState('');
     const fileRef = useRef(null);
 
@@ -21,30 +23,49 @@ export default function HairAdvisor() {
         const reader = new FileReader();
         reader.onload = (e) => {
             setPreview(e.target.result);
-            // Extract base64 without the data:...;base64, prefix
             const base64 = e.target.result.split(',')[1];
             setImageData({ base64, mimeType: file.type });
         };
         reader.readAsDataURL(file);
     }, []);
 
-    const handleFileChange = (e) => {
-        processFile(e.target.files?.[0]);
-    };
+    const handleFileChange = (e) => processFile(e.target.files?.[0]);
+    const handleDrop = (e) => { e.preventDefault(); processFile(e.dataTransfer.files?.[0]); };
 
-    const handleDrop = (e) => {
-        e.preventDefault();
-        processFile(e.dataTransfer.files?.[0]);
+    // Generate images for all recommendations in parallel
+    const generateImages = async (recommendations) => {
+        const loading = {};
+        recommendations.forEach((_, i) => { loading[i] = true; });
+        setLoadingImages(loading);
+
+        const promises = recommendations.map(async (rec, i) => {
+            if (!rec.image_prompt) return;
+            try {
+                const dataUri = await generateHairstyleImage(rec.image_prompt);
+                if (dataUri) {
+                    setRecImages((prev) => ({ ...prev, [i]: dataUri }));
+                }
+            } catch { /* silent fail */ }
+            setLoadingImages((prev) => ({ ...prev, [i]: false }));
+        });
+
+        await Promise.allSettled(promises);
     };
 
     const handleAnalyze = async () => {
         if (!imageData) return;
         setPhase('analyzing');
         setError('');
+        setRecImages({});
+        setLoadingImages({});
         try {
             const data = await analyzeHairstyle(imageData.base64, imageData.mimeType);
             setResult(data);
             setPhase('results');
+            // Fire image generation in background (non-blocking)
+            if (data.recommendations?.length) {
+                generateImages(data.recommendations);
+            }
         } catch (err) {
             setError(err.message || 'Terjadi kesalahan saat analisis.');
             setPhase('error');
@@ -56,6 +77,8 @@ export default function HairAdvisor() {
         setPreview(null);
         setImageData(null);
         setResult(null);
+        setRecImages({});
+        setLoadingImages({});
         setError('');
     };
 
@@ -67,7 +90,7 @@ export default function HairAdvisor() {
                 <div className="container advisor-hero__inner">
                     <div className="hero__badge">✦ AI HAIR ADVISOR</div>
                     <h1>Gaya Rambut <span className="text-gold">Terbaik</span> untuk Anda</h1>
-                    <p>Upload foto wajah Anda — AI kami akan menganalisis bentuk wajah dan merekomendasikan gaya rambut yang paling cocok.</p>
+                    <p>Upload foto wajah Anda — AI kami akan menganalisis bentuk wajah dan merekomendasikan gaya rambut yang paling cocok, lengkap dengan gambar referensi.</p>
                 </div>
             </section>
 
@@ -96,14 +119,7 @@ export default function HairAdvisor() {
                                         <span className="adv-dropzone__formats">JPG, PNG, WebP — Maks 5MB</span>
                                     </div>
                                 )}
-                                <input
-                                    ref={fileRef}
-                                    type="file"
-                                    accept="image/*"
-                                    capture="user"
-                                    onChange={handleFileChange}
-                                    hidden
-                                />
+                                <input ref={fileRef} type="file" accept="image/*" capture="user" onChange={handleFileChange} hidden />
                             </div>
 
                             {!preview && (
@@ -111,10 +127,7 @@ export default function HairAdvisor() {
                                     <button className="btn btn-outline" onClick={() => fileRef.current?.click()}>
                                         <Upload size={18} /> Pilih File
                                     </button>
-                                    <button className="btn btn-outline" onClick={() => {
-                                        fileRef.current?.setAttribute('capture', 'user');
-                                        fileRef.current?.click();
-                                    }}>
+                                    <button className="btn btn-outline" onClick={() => { fileRef.current?.setAttribute('capture', 'user'); fileRef.current?.click(); }}>
                                         <Camera size={18} /> Ambil Selfie
                                     </button>
                                 </div>
@@ -142,9 +155,7 @@ export default function HairAdvisor() {
                             </div>
                             <h3>AI Sedang Menganalisis...</h3>
                             <p>Gemini Vision sedang membaca bentuk wajah dan mencocokkan gaya rambut terbaik untuk Anda.</p>
-                            <div className="adv-loading__bar">
-                                <div className="adv-loading__fill" />
-                            </div>
+                            <div className="adv-loading__bar"><div className="adv-loading__fill" /></div>
                         </div>
                     )}
 
@@ -182,19 +193,39 @@ export default function HairAdvisor() {
                                 <div className="adv-recs">
                                     {result.recommendations?.map((rec, i) => (
                                         <div key={i} className="adv-rec glass-card hover-lift">
-                                            <div className="adv-rec__rank">{i + 1}</div>
-                                            <h4>{rec.name}</h4>
-                                            <p>{rec.description}</p>
-                                            <div className="adv-rec__tags">
-                                                <span className="adv-tag" style={{ '--tag-color': diffColors[rec.difficulty] || '#888' }}>
-                                                    ⚡ {rec.difficulty}
-                                                </span>
-                                                <span className="adv-tag" style={{ '--tag-color': maintColors[rec.maintenance] || '#888' }}>
-                                                    🔧 {rec.maintenance}
-                                                </span>
-                                                <span className="adv-tag adv-tag--gold">
-                                                    <Star size={12} /> {rec.best_for}
-                                                </span>
+                                            {/* Image */}
+                                            <div className="adv-rec__image">
+                                                {recImages[i] ? (
+                                                    <img src={recImages[i]} alt={rec.name} />
+                                                ) : loadingImages[i] ? (
+                                                    <div className="adv-rec__img-loading">
+                                                        <div className="adv-rec__img-spinner" />
+                                                        <span>Generating...</span>
+                                                    </div>
+                                                ) : (
+                                                    <div className="adv-rec__img-placeholder">
+                                                        <ImageIcon size={32} />
+                                                        <span>Gambar tidak tersedia</span>
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            <div className="adv-rec__body">
+                                                <div className="adv-rec__rank">{i + 1}</div>
+                                                <h4>{rec.name}</h4>
+                                                {rec.name_id && <span className="adv-rec__name-id">{rec.name_id}</span>}
+                                                <p>{rec.description}</p>
+                                                <div className="adv-rec__tags">
+                                                    <span className="adv-tag" style={{ '--tag-color': diffColors[rec.difficulty] || '#888' }}>
+                                                        ⚡ {rec.difficulty}
+                                                    </span>
+                                                    <span className="adv-tag" style={{ '--tag-color': maintColors[rec.maintenance] || '#888' }}>
+                                                        🔧 {rec.maintenance}
+                                                    </span>
+                                                    <span className="adv-tag adv-tag--gold">
+                                                        <Star size={12} /> {rec.best_for}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     ))}
