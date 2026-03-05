@@ -1,7 +1,13 @@
 import { useState, useMemo } from 'react';
-import { Calendar, Clock, User, Phone, Scissors, Check, ArrowRight, ArrowLeft, MessageCircle } from 'lucide-react';
+import { Calendar, Clock, User, Phone, Scissors, Check, ArrowRight, ArrowLeft, MessageCircle, Star } from 'lucide-react';
 import heroImg from '../assets/hero-booking.png';
 import './Booking.css';
+
+const barbers = [
+    { id: 'rizky', name: 'Rizky Aditya', role: 'Head Barber', specialty: 'Fade & Skin Fade Specialist', exp: '8 tahun' },
+    { id: 'dimas', name: 'Dimas Pratama', role: 'Senior Barber', specialty: 'Classic & Modern Styles', exp: '5 tahun' },
+    { id: 'fajar', name: 'Fajar Ramadhan', role: 'Barber & Colorist', specialty: 'Hair Coloring Expert', exp: '4 tahun' },
+];
 
 const serviceCategories = [
     {
@@ -43,7 +49,7 @@ const fmt = (n) => 'Rp ' + n.toLocaleString('id-ID');
 export default function Booking() {
     const [step, setStep] = useState(1);
     const [selected, setSelected] = useState([]); // array of {name, price, desc}
-    const [form, setForm] = useState({ name: '', phone: '', date: '', time: '' });
+    const [form, setForm] = useState({ name: '', phone: '', date: '', time: '', barber: '' });
     const [submitted, setSubmitted] = useState(false);
 
     const total = useMemo(() => selected.reduce((s, i) => s + i.price, 0), [selected]);
@@ -59,18 +65,20 @@ export default function Booking() {
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     const canStep2 = selected.length > 0;
-    const canStep3 = form.name && form.phone && form.date && form.time;
+    const canStep3 = form.name && form.phone && form.date && form.time && form.barber;
+    const selectedBarber = barbers.find(b => b.id === form.barber);
 
     const handleSubmit = () => {
         const serviceList = selected.map((s) => `  • ${s.name} — ${fmt(s.price)}`).join('\n');
         const message = encodeURIComponent(
-            `Halo Vantex Barbershop! 🔥\n\nSaya ingin melakukan reservasi:\n\n` +
-            `👤 Nama: ${form.name}\n` +
-            `📱 No. HP: ${form.phone}\n\n` +
-            `✂️ Layanan:\n${selected.map(s => `  • ${s.name} — ${fmt(s.price)}`).join('\n')}\n\n` +
-            `💰 Total: ${fmt(total)}\n\n` +
-            `📅 Tanggal: ${form.date}\n` +
-            `🕐 Jam: ${form.time}\n\n` +
+            `Halo Vantex Barbershop! \u{1F525}\n\nSaya ingin melakukan reservasi:\n\n` +
+            `\u{1F464} Nama: ${form.name}\n` +
+            `\u{1F4F1} No. HP: ${form.phone}\n\n` +
+            `\u2702\uFE0F Layanan:\n${selected.map(s => `  \u2022 ${s.name} \u2014 ${fmt(s.price)}`).join('\n')}\n\n` +
+            `\u{1F4B0} Total: ${fmt(total)}\n\n` +
+            `\u{1F4C5} Tanggal: ${form.date}\n` +
+            `\u{1F550} Jam: ${form.time}\n` +
+            `\u{1F4C7} Barber: ${selectedBarber?.name || '-'}\n\n` +
             `Mohon konfirmasinya. Terima kasih!`
         );
         window.open(`https://wa.me/6285940722924?text=${message}`, '_blank');
@@ -84,7 +92,7 @@ export default function Booking() {
                     <div className="booking-success__icon"><Check size={48} /></div>
                     <h2>Reservasi Terkirim!</h2>
                     <p>Pesan WhatsApp Anda telah dibuka. Tim kami akan mengkonfirmasi jadwal Anda.</p>
-                    <button className="btn btn-primary" onClick={() => { setSubmitted(false); setStep(1); setSelected([]); setForm({ name: '', phone: '', date: '', time: '' }); }}>
+                    <button className="btn btn-primary" onClick={() => { setSubmitted(false); setStep(1); setSelected([]); setForm({ name: '', phone: '', date: '', time: '', barber: '' }); }}>
                         Buat Reservasi Lagi
                     </button>
                 </div>
@@ -190,6 +198,27 @@ export default function Booking() {
                                         ))}
                                     </div>
                                 </div>
+
+                                {/* Barber picker */}
+                                <div className="bk-field">
+                                    <label><Scissors size={14} /> Pilih Barber</label>
+                                    <div className="bk-barbers">
+                                        {barbers.map((b) => (
+                                            <button key={b.id} type="button"
+                                                className={`bk-barber ${form.barber === b.id ? 'bk-barber--active' : ''}`}
+                                                onClick={() => setForm({ ...form, barber: b.id })}
+                                            >
+                                                <div className="bk-barber__avatar">{b.name.charAt(0)}</div>
+                                                <div className="bk-barber__info">
+                                                    <strong>{b.name}</strong>
+                                                    <span className="bk-barber__role">{b.role}</span>
+                                                    <span className="bk-barber__spec"><Star size={10} /> {b.specialty}</span>
+                                                </div>
+                                                {form.barber === b.id && <div className="bk-barber__check"><Check size={14} /></div>}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
 
                             {/* Nav */}
@@ -227,6 +256,10 @@ export default function Booking() {
                                 <div className="bk-nota__section">
                                     <h4>📅 Jadwal</h4>
                                     <p>{form.date} — <strong>{form.time} WIB</strong></p>
+                                </div>
+                                <div className="bk-nota__section">
+                                    <h4>Barber</h4>
+                                    <p><strong>{selectedBarber?.name}</strong> &mdash; {selectedBarber?.role}</p>
                                 </div>
 
                                 <div className="bk-nota__divider" />

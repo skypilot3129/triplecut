@@ -562,4 +562,110 @@
     .bk-nota {
         padding: var(--space-lg);
     }
+
+    .bk-barber {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--space-sm);
+    }
+
+    .bk-barber__avatar {
+        width: 44px;
+        height: 44px;
+        font-size: 1rem;
+    }
+}
+
+/* ============================
+   BARBER PICKER
+   ============================ */
+.bk-barbers {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.bk-barber {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--color-white);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: left;
+    position: relative;
+}
+
+.bk-barber:hover {
+    border-color: var(--color-gold-border);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.bk-barber--active {
+    border-color: var(--color-gold);
+    background: var(--color-gold-bg);
+    box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+}
+
+.bk-barber__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-dark);
+    color: var(--color-gold-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}
+
+.bk-barber--active .bk-barber__avatar {
+    background: var(--color-gold);
+    color: #fff;
+}
+
+.bk-barber__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.bk-barber__info strong {
+    font-size: 0.95rem;
+    color: var(--color-dark);
+}
+
+.bk-barber__role {
+    font-size: 0.75rem;
+    color: var(--color-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.bk-barber__spec {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    color: var(--color-gold);
+}
+
+.bk-barber__check {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-gold);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
